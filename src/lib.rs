@@ -45,7 +45,7 @@ impl PackedSchedule {
                     Some(time) => {
                         *accumulator += time.delta_seconds_f64;
                     },
-                    None => log::debug!("Time does not exist, Fixed Schedule cannot run!"),
+                    None => panic!("Time does not exist, Fixed Schedule cannot run!"),
                 };
 
                 // Run fixed-interval ticks
@@ -55,6 +55,13 @@ impl PackedSchedule {
                 }
             },
         };
+    }
+
+    fn frame_percent(&self) -> f64 {
+        match self.0 {
+            ScheduleType::Always =>1.0,
+            ScheduleType::Fixed(rate, accumulator) => f64::min(1.0, f64::max(0.0, accumulator / rate)),
+        }
     }
 }
 
@@ -151,6 +158,10 @@ impl ScheduleRunner {
             self.0.1.add_system_to_stage(stage_name, system);
         }
         self
+    }
+
+    pub fn frame_percent(&self) -> f64 {
+        self.0.frame_percent()
     }
 }
 
