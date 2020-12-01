@@ -1,6 +1,4 @@
-use bevy::{
-    app::ScheduleRunnerPlugin, core::CorePlugin, prelude::*, type_registry::TypeRegistryPlugin,
-};
+use bevy::{app::ScheduleRunnerPlugin, prelude::*};
 use bevy_contrib_schedules::*;
 
 fn main() {
@@ -12,9 +10,7 @@ fn main() {
     }
 
     App::build()
-        .add_resource(Time::default())
-        .add_plugin(TypeRegistryPlugin::default())
-        .add_plugin(CorePlugin::default())
+        .add_plugins(MinimalPlugins)
         .add_plugin(ScheduleRunnerPlugin::default())
         .add_startup_system(build)
         .add_system(schedule_runner_system)

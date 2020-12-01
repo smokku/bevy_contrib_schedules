@@ -1,6 +1,4 @@
-use bevy::{
-    app::ScheduleRunnerPlugin, core::CorePlugin, prelude::*, type_registry::TypeRegistryPlugin,
-};
+use bevy::{app::ScheduleRunnerPlugin, prelude::*};
 use bevy_contrib_schedules::*;
 
 fn main() {
@@ -12,11 +10,8 @@ fn main() {
     }
 
     App::build()
-        // Ticks every 2 seconds
         .add_resource(ScheduleRunner::from_rate(2.0).add_system(fixed_sys))
-        .add_resource(Time::default())
-        .add_plugin(TypeRegistryPlugin::default())
-        .add_plugin(CorePlugin::default())
+        .add_plugins(MinimalPlugins)
         .add_plugin(ScheduleRunnerPlugin::default())
         .add_system(schedule_runner_system)
         .run();

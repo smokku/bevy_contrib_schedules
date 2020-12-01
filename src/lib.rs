@@ -47,7 +47,7 @@ impl PackedSchedule {
                 // Accumulate time
                 match resources.get::<Time>() {
                     Some(time) => {
-                        *accumulator += time.delta_seconds_f64;
+                        *accumulator += time.delta_seconds_f64();
                     }
                     None => panic!("Time does not exist, Fixed Schedule cannot run!"),
                 };
